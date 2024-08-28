@@ -57,7 +57,7 @@ const SideBar = () => {
             >
               <div
                 key={route.href}
-                className="flex flex-col items-center flex-1"
+                className="flex flex-col items-center flex-1 text-sm"
               >
                 {<route.icon />}
 
