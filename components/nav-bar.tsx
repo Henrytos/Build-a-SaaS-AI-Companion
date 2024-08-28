@@ -5,7 +5,8 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { ToggleTheme } from "@/components/toggle-theme";
-import { Menu, Star } from "lucide-react";
+import { Menu, Star, Stars } from "lucide-react";
+import { MobileSidebar } from "./mobile-side-bar";
 
 const poppins = Poppins({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -22,13 +23,13 @@ const NavBar = () => {
           </h1>
         </Link>
         <div className="md:hidden">
-          <Menu />
+          <MobileSidebar />
         </div>
       </div>
       <div className=" flex items-center gap-3">
         <Button variant="premiun" size="sm">
-          Premiun
-          <Star size="16" className="ml-1 fill-primary" />
+          upgrade
+          <Stars size="16" className="ml-1 fill-primary" />
         </Button>
         <ToggleTheme />
         <UserButton />

@@ -1,4 +1,5 @@
 import { NavBar } from "@/components/nav-bar";
+import { SideBar } from "@/components/side-bar";
 
 export default function RootLayout({
   children,
@@ -6,9 +7,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="w-full  pt-16 px-6 md:px-14">
-      <NavBar />
-      {children}
-    </main>
+    <div className="h-full">
+      <div className="hidden md:flex mt-16 w-20 flex-col fixed inset-y-0">
+        <SideBar />
+      </div>
+      <main className="w-full pt-20 px-6 md:pl-24">
+        <NavBar />
+        {children}
+      </main>
+    </div>
   );
 }
