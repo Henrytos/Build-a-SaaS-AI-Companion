@@ -14,7 +14,7 @@ const poppins = Poppins({
 
 const NavBar = () => {
   return (
-    <header className="w-full flex justify-between items-center  fixed top-0 left-0 px-6 md:px-14 border-b border-secondary/80 h-20">
+    <header className="w-full flex justify-between items-center  fixed top-0 left-0 px-6 md:px-14 border-b border-secondary/80 h-16 z-50 bg-secondary">
       <div>
         <Link href="/" className="hidden md:block">
           <h1 className={cn("md:text-3xl font-bold", poppins.className)}>
