@@ -9,11 +9,7 @@ const SideBar = () => {
   const router = useRouter();
 
   const onNavigate = (href: string, pro: boolean) => {
-    if (pro) {
-      return;
-    } else {
-      router.push(href);
-    }
+    router.push(href);
   };
 
   const routes = [
