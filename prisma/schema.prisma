@@ -37,4 +37,7 @@ model Companion {
 
   Category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
+  //@@fulltext([name])
+
+  @@index([categoryId])
 }

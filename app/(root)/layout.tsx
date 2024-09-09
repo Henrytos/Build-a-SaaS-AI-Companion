@@ -11,7 +11,7 @@ export default function RootLayout({
       <div className="hidden md:flex mt-16 w-20 flex-col fixed inset-y-0">
         <SideBar />
       </div>
-      <main className="w-full pt-20  md:pl-24">
+      <main className="w-full pt-20  md:pl-20">
         <NavBar />
         {children}
       </main>
