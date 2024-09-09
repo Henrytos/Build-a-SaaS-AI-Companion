@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { WandSparkles } from "lucide-react";
+import { ImageUpload } from "./image-upload";
 
 interface CompanionFormProps {
   initialData: Companion | null;
@@ -41,6 +42,11 @@ const schemaCompanion = z.object({
   seed: z.string({ message: "required seed min 200 characters" }).min(200),
 });
 
+const INSTRUCTIONS =
+  'Preencha o campo "Instruções" com orientações claras e objetivas para que a IA cumpra sua função. Por exemplo, "A IA deve analisar o comportamento online de MackerZugerberg e sugerir melhorias de produtividade. Ela deve processar dados como postagens, comentários e tempo de uso, e fornecer um relatório diário com recomendações personalizadas para otimizar seu tempo nas redes sociais, evitando distrações e promovendo eficiência."';
+
+const SEED =
+  "MackerZugerberg é uma pessoa altamente focada, analítica e com grande interesse em inovação tecnológica. Ele tem um perfil de liderança, é metódico, valoriza eficiência e gosta de tomar decisões baseadas em dados. É conhecido por sua determinação e capacidade de resolver problemas complexos rapidamente, sempre buscando otimizar processos e melhorar a experiência digital.";
 const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
   const form = useForm<z.infer<typeof schemaCompanion>>({
     defaultValues: {
@@ -52,6 +58,8 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
       seed: "",
     },
   });
+
+  const isLoading = form.formState.isSubmitting;
 
   const onSubmit = (data: z.infer<typeof schemaCompanion>) => {
     console.log(data);
@@ -65,6 +73,29 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
           className="w-full flex flex-col items-center"
         >
           <div className="grid grid-cols-2 gap-4 w-full max-w-5xl">
+            <div className="col-span-2  w-full flex flex-col gap-2">
+              <FormField
+                {...form.register("src")}
+                name="src"
+                render={({ field }) => (
+                  <FormItem
+                    className="w-full flex justify-center border mb-10
+                "
+                  >
+                    <FormControl>
+                      <ImageUpload
+                        onChange={field.onChange}
+                        disabled={field.disabled}
+                        value={field.value}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 w-full max-w-5xl">
             <div className="col-span-2 md:col-span-1 w-full flex flex-col gap-2">
               <Label
                 className="font-semibold uppercase font-mono"
@@ -73,9 +104,10 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
                 name
               </Label>
               <Input
+                disabled={isLoading}
                 {...form.register("name")}
                 id="name"
-                placeholder="cr7"
+                placeholder="MackerZugerberg"
                 className="w-full bg-neutral-900  border border-foreground/30 focus:border-foreground/50 transition-all placeholder-opacity-40 "
               />
             </div>
@@ -88,9 +120,10 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
                 description
               </Label>
               <Input
+                disabled={isLoading}
                 {...form.register("description")}
                 id="description"
-                placeholder="cr7"
+                placeholder="Eu Sou MackerZugerberg"
                 className="w-full bg-neutral-900  border border-foreground/30 focus:border-foreground/50 transition-all"
               />
             </div>
@@ -105,7 +138,10 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
                     </FormLabel>
                     <Select>
                       <FormControl>
-                        <SelectTrigger className="bg-neutral-900  border-foreground/30">
+                        <SelectTrigger
+                          className="bg-neutral-900  border-foreground/30"
+                          disabled={isLoading}
+                        >
                           <SelectValue placeholder={"category companion"} />
                         </SelectTrigger>
                       </FormControl>
@@ -144,7 +180,8 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
                         id={field.name}
                         className="w-full bg-neutral-900  border border-foreground/30 focus:border-foreground/50 transition-all"
                         rows={8}
-                        placeholder="cr7"
+                        placeholder={INSTRUCTIONS}
+                        disabled={isLoading}
                       />
                     </FormControl>
                   </FormItem>
@@ -167,8 +204,10 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
                       <Textarea
                         {...form.register("seed")}
                         id={field.name}
+                        placeholder={SEED}
                         className="w-full bg-neutral-900  border border-foreground/30 focus:border-foreground/50 transition-all"
                         rows={8}
+                        disabled={isLoading}
                       ></Textarea>
                     </FormControl>
                   </FormItem>
