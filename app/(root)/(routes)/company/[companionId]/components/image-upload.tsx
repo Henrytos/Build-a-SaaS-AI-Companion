@@ -35,9 +35,9 @@ export const ImageUpload = ({
         uploadPreset="pcsu2gxa"
       >
         <Image
-          className="w-40 h-40 object-cover border border-dashed border-zinc-100 rounded-lg p-4"
-          width={160}
-          height={160}
+          className="w-56 h-56 object-cover border border-dashed border-zinc-100 rounded-lg p-4"
+          width={224}
+          height={224}
           src={value || "/default-image.png"}
           alt="image upload"
         />

@@ -70,7 +70,7 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-full flex flex-col items-center"
+          className="w-full flex flex-col items-center pb-6"
         >
           <div className="grid grid-cols-2 gap-4 w-full max-w-5xl">
             <div className="col-span-2  w-full flex flex-col gap-2">
@@ -219,10 +219,10 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
                 type="submit"
                 variant="default"
                 className="
-              mt-8 px-8 "
+              mt-8 px-8 max-sm:w-full"
               >
                 Create
-                <WandSparkles className="w-4 h-4 ml-2" />
+                <WandSparkles className=" w-4 h-4 ml-2" />
               </Button>
             </div>
           </div>
