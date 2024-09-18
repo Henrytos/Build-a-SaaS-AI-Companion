@@ -3,6 +3,7 @@
 import { Category, Companion } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
 
 import {
   Form,
@@ -25,6 +26,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { WandSparkles } from "lucide-react";
 import { ImageUpload } from "./image-upload";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 interface CompanionFormProps {
   initialData: Companion | null;
@@ -47,22 +50,43 @@ const INSTRUCTIONS =
 
 const SEED =
   "MackerZugerberg é uma pessoa altamente focada, analítica e com grande interesse em inovação tecnológica. Ele tem um perfil de liderança, é metódico, valoriza eficiência e gosta de tomar decisões baseadas em dados. É conhecido por sua determinação e capacidade de resolver problemas complexos rapidamente, sempre buscando otimizar processos e melhorar a experiência digital.";
+
 const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
+  const router = useRouter();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof schemaCompanion>>({
     defaultValues: {
-      src: "",
-      name: "",
-      categoryId: undefined,
-      description: "",
-      instructions: "",
-      seed: "",
+      src: initialData?.src ?? "",
+      name: initialData?.name ?? "",
+      categoryId: Number(initialData?.categoryId) ?? undefined,
+      description: initialData?.description ?? "",
+      instructions: initialData?.instructions ?? "",
+      seed: initialData?.seed ?? "",
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = (data: z.infer<typeof schemaCompanion>) => {
+  const onSubmit = async (data: z.infer<typeof schemaCompanion>) => {
     console.log(data);
+    try {
+      if (initialData) {
+        await axios.patch(`/api/companion/${initialData.id}`, data);
+      } else {
+        await axios.post(`/api/companion`, data);
+      }
+
+      router.refresh();
+      router.push("/");
+      toast({
+        title: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "error",
+      });
+    }
   };
 
   return (
@@ -136,7 +160,12 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
                     <FormLabel className="font-semibold uppercase font-mono">
                       Category
                     </FormLabel>
-                    <Select>
+                    <Select
+                      disabled={isLoading}
+                      onValueChange={field.onChange}
+                      value={field.value.toString()}
+                      defaultValue={field.value.toString()}
+                    >
                       <FormControl>
                         <SelectTrigger
                           className="bg-neutral-900  border-foreground/30"
