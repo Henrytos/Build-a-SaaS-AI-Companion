@@ -38,6 +38,25 @@ model Companion {
   Category   Category? @relation(fields: [categoryId], references: [id])
   categoryId String?
   //@@fulltext([name])
+  messages   Message[]
 
   @@index([categoryId])
+}
+
+enum Role {
+  SYSTEM
+  USER
+}
+
+model Message {
+  id          String @id @default(uuid())
+  content     String
+  userId      String
+  companionId String
+  role        Role
+
+  companion Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
