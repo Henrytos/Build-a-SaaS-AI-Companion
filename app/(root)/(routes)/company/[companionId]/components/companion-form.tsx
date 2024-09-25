@@ -79,7 +79,6 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (data: z.infer<typeof schemaCompanion>) => {
-    console.log(data);
     try {
       if (initialData) {
         await axios.patch(`/api/companion/${initialData.id}`, data);
@@ -87,8 +86,8 @@ const CompanionForm = ({ initialData, categories }: CompanionFormProps) => {
         await axios.post(`/api/companion`, data);
       }
 
-      router.refresh();
       router.push("/");
+      router.refresh();
       toast({
         title: "success",
       });

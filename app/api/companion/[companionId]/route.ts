@@ -1,5 +1,5 @@
 import { prismadb } from "@/lib/prismadb";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth, currentUser } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -49,5 +49,29 @@ export async function PATCH(
     });
   } catch (error) {
     console.log("[POST] /api/companion", error);
+  }
+}
+
+export async function DELETE(
+  request: Request,
+  { params: { companionId } }: { params: { companionId: string } }
+) {
+  try {
+    const { userId } = auth();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    await prismadb.companion.delete({
+      where: {
+        id: companionId,
+        userId,
+      },
+    });
+
+    return new NextResponse("success", { status: 200 });
+  } catch (error) {
+    console.log("[DELETE] /api/companion", error);
   }
 }
